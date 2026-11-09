@@ -1,55 +1,110 @@
-<div class="card">
- <div class="emoji">🔥</div>
- <h3>Free Fire</h3>
- <p>شحن الجواهر</p>
- <button onclick="makeOrder('Free Fire')">اطلب الآن</button>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTX-UNLOCK STORE</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090910;color:white;font-family:Arial,sans-serif}
+header{background:#15151f;padding:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:2px solid #e00020}
+.logo{font-size:27px;font-weight:bold;color:#f00024}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+button{background:#df001f;color:white;border:0;padding:12px 18px;border-radius:9px;cursor:pointer;font-weight:bold}
+button:hover{background:#a90018}
+.container{max-width:1100px;margin:auto;padding:20px}
+.hero{padding:45px 15px;text-align:center;background:linear-gradient(130deg,#27000b,#11111d,#30000c);border-radius:15px;margin-top:20px}
+.hero h1{font-size:38px;color:#ff1535}
+.hero p{color:#ddd;font-size:18px}
+h2{color:#ff2442}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
+.card{background:#191923;padding:22px;border:1px solid #343442;border-radius:13px;text-align:center}
+.emoji{font-size:42px}
+.card h3{color:white}
+.price{color:#ff4059;font-weight:bold}
+input,select{width:100%;padding:14px;margin:8px 0;background:#22222e;border:1px solid #444;color:white;border-radius:8px}
+.panel{background:#191923;padding:22px;border-radius:13px;margin:20px 0}
+.hidden{display:none!important}
+.balance{font-size:32px;color:#24d88a;font-weight:bold}
+footer{text-align:center;padding:25px;color:#aaa}
+a{color:#ff4059}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">👑 GTX STORE</div>
+<nav>
+<button onclick="show('home')">الرئيسية</button>
+<button onclick="show('services')">الخدمات</button>
+<button onclick="show('wallet')">المحفظة</button>
+<button onclick="show('login')">دخول</button>
+<button onclick="show('register')">إنشاء حساب</button>
+</nav>
+</header>
+
+<main class="container">
+
+<section id="home">
+<div class="hero">
+<h1>GTX-UNLOCK STORE</h1>
+<h2>PHONE • DIGITAL • GAMING</h2>
+<p>خدمات رقمية وشحن ألعاب واشتراكات بأفضل الأسعار</p>
+<button onclick="show('services')">اكتشف الخدمات</button>
 </div>
 
-<div class="card">
- <div class="emoji">🎯</div>
- <h3>PUBG Mobile</h3>
- <p>شحن UC</p>
- <button onclick="makeOrder('PUBG Mobile')">اطلب الآن</button>
+<h2>خدماتنا الرئيسية</h2>
+<div class="grid">
+<div class="card"><div class="emoji">🎮</div><h3>شحن الألعاب</h3><p>Free Fire و PUBG</p></div>
+<div class="card"><div class="emoji">👻</div><h3>Snapchat+</h3><p>اشتراكات</p></div>
+<div class="card"><div class="emoji">📺</div><h3>Netflix</h3><p>اشتراكات رقمية</p></div>
+<div class="card"><div class="emoji">🔓</div><h3>خدمات Unlock</h3><p>خدمات تقنية قانونية</p></div>
 </div>
+</section>
 
-<div class="card">
- <div class="emoji">⚽</div>
- <h3>eFootball</h3>
- <p>شحن العملات</p>
- <button onclick="makeOrder('eFootball')">اطلب الآن</button>
-</div>
+<section id="services" class="hidden">
+<h2>جميع الخدمات</h2>
+<div class="grid" id="serviceList"></div>
+</section>
 
-<div class="card">
- <div class="emoji">👻</div>
- <h3>Snapchat+</h3>
- <p>الاشتراكات</p>
- <button onclick="makeOrder('Snapchat+')">اطلب الآن</button>
+<section id="register" class="hidden">
+<div class="panel">
+<h2>إنشاء حساب جديد</h2>
+<input id="regName" placeholder="الاسم الكامل">
+<input id="regPhone" placeholder="رقم الهاتف" type="tel">
+<input id="regEmail" placeholder="البريد الإلكتروني" type="email">
+<input id="regPass" placeholder="كلمة السر (8 أحرف على الأقل ورقم)" type="password">
+<button onclick="register()">إنشاء الحساب</button>
+<p>لديك حساب؟ <a href="#" onclick="show('login')">تسجيل الدخول</a></p>
 </div>
+</section>
 
-<div class="card">
- <div class="emoji">🎬</div>
- <h3>Netflix</h3>
- <p>الاشتراكات الرقمية</p>
- <button onclick="makeOrder('Netflix')">اطلب الآن</button>
+<section id="login" class="hidden">
+<div class="panel">
+<h2>تسجيل الدخول</h2>
+<input id="loginUser" placeholder="اسم المستخدم أو البريد أو الهاتف">
+<input id="loginPass" type="password" placeholder="كلمة السر">
+<button onclick="login()">دخول</button>
+<p>ليس لديك حساب؟ <a href="#" onclick="show('register')">إنشاء حساب</a></p>
 </div>
+</section>
 
-<div class="card">
- <div class="emoji">💻</div>
- <h3>البرامج</h3>
- <p>برامج وتطبيقات مرخصة</p>
- <button onclick="makeOrder('البرامج')">اطلب الآن</button>
+<section id="account" class="hidden">
+<div class="panel">
+<h2>مرحباً <span id="welcome"></span> 👋</h2>
+<p>رصيد محفظتك</p>
+<div class="balance"><span id="balance">0</span> DA</div>
+<button onclick="show('wallet')">شحن المحفظة</button>
+<button onclick="logout()">تسجيل الخروج</button>
+<h2>طلباتي</h2>
+<div id="orders">لا توجد طلبات</div>
 </div>
+</section>
 
-<div class="card">
- <div class="emoji">📱</div>
- <h3>خدمات الهواتف</h3>
- <p>صيانة وبرامج وخدمات تقنية</p>
- <button onclick="makeOrder('خدمات الهواتف')">اطلب الآن</button>
-</div>
-
-<div class="card">
- <div class="emoji">🔓</div>
- <h3>فتح الأجهزة</h3>
- <p>خدمات فتح الأجهزة المصرح بها</p>
- <button onclick="makeOrder('فتح الأجهزة')">اطلب الآن</button>
-</div>
+<section id="wallet" class="hidden">
+<div class="panel">
+<h2>💰 محفظتي</h2>
+<p>رصيدك الحالي:</p>
+<div class="balance"><span id="walletBalance">0</span> DA</div>
