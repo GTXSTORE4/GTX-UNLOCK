@@ -135,7 +135,7 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <div class="panel">
 <p class="muted">رصيدك التجريبي</p>
 <div class="balance" id="walletAmount">0 DA</div>
-<div class="notice">هذه نسخة تجريبية للواجهة فقط. طلب الشحن لا يضيف أموالاً حقيقية ولا يتصل ببطاقة دفع. لا ترسل كلمة مرورك أو بيانات بطاقتك.</div>
+<div class="notice">هذه نسخة تجريبية للواجهة فقط. طلب الشحن لا يضيف أموالاً حقيقية ولا يتصل ببطاقة دفع.</div>
 <h3>طلب شحن الرصيد</h3>
 <div class="form-grid">
 <div class="field">
@@ -169,7 +169,6 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <div class="empty">سجّل الدخول لعرض طلباتك.</div>
 </div>
 </section>
-
 </main>
 
 <footer>© 2026 GTX STORE — PHONE • DIGITAL • GAMING</footer>
@@ -184,8 +183,8 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <div class="field"><label>رقم الهاتف</label><input id="regPhone" required inputmode="tel"></div>
 <div class="field"><label>البريد الإلكتروني</label><input id="regEmail" type="email" required></div>
 <div class="field"><label>اسم المستخدم</label><input id="regUsername" required minlength="3"></div>
-<div class="field"><label>كلمة المرور: 8 خانات على الأقل، حروف وأرقام</label><input id="regPassword" type="password" required minlength="8"></div>
-<div class="field"><label>تأكيد كلمة المرور</label><input id="regConfirm" type="password" required></div>
+<div class="field"><label>كلمة المرور: 7 خانات على الأقل</label><input id="regPassword" type="password" required minlength="7"></div>
+<div class="field"><label>تأكيد كلمة المرور</label><input id="regConfirm" type="password" required minlength="7"></div>
 <button type="submit">إنشاء الحساب</button>
 <button type="button" class="ghost" onclick="switchAuth('login')">لدي حساب</button>
 </form>
@@ -197,7 +196,7 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <button type="button" class="ghost" onclick="switchAuth('register')">إنشاء حساب</button>
 </form>
 
-<div class="notice">تنبيه: هذا تسجيل تجريبي محلي. لا تستعمل كلمة مرورك الحقيقية أو كلمة مرور تستخدمها في مواقع أخرى.</div>
+<div class="notice">تسجيل تجريبي محلي فقط. لا تستعمل كلمة مرورك الحقيقية.</div>
 </div>
 </div>
 
@@ -213,6 +212,8 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 </div>
 
 <script>
+"use strict";
+
 const SERVICES=[
 {name:"Free Fire",desc:"شحن ألماس Free Fire",price:"حسب الباقة",icon:"🔥"},
 {name:"PUBG Mobile",desc:"شحن UC",price:"حسب الباقة",icon:"🎯"},
@@ -225,20 +226,41 @@ const SERVICES=[
 ];
 
 const KEY="gtx_store_demo_v1";
-let db=JSON.parse(localStorage.getItem(KEY)||'{"users":[],"current":null,"topups":[]}'),selected=null;
+let db;
 
-function save(){localStorage.setItem(KEY,JSON.stringify(db))}
-function current(){return db.users.find(u=>u.id===db.current)||null}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+try {
+db=JSON.parse(localStorage.getItem(KEY)||'{"users":[],"current":null,"topups":[]}');
+} catch(e) {
+db={users:[],current:null,topups:[]};
+}
+
+if(!Array.isArray(db.users))db.users=[];
+if(!Array.isArray(db.topups))db.topups=[];
+
+let selected=null;
+const $=id=>document.getElementById(id);
+
+function save(){
+localStorage.setItem(KEY,JSON.stringify(db));
+}
+
+function current(){
+return db.users.find(u=>u.id===db.current)||null;
+}
+
+function esc(v){
+return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
 
 function renderServices(list,id){
-document.getElementById(id).innerHTML=list.map(s=>`<article class="card">
+$(id).innerHTML=list.map(s=>`
+<article class="card">
 <div class="emoji">${s.icon}</div>
 <h3>${esc(s.name)}</h3>
 <p>${esc(s.desc)}</p>
 <div class="price">${esc(s.price)}</div>
 <button onclick="startOrder('${esc(s.name)}')">اطلب الآن</button>
-</article>`).join("")
+</article>`).join("");
 }
 
 function go(id){
@@ -247,52 +269,111 @@ document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",
 if(id==="dashboard")renderDashboard();
 if(id==="wallet")renderWallet();
 if(id==="orders")renderOrders();
-window.scrollTo(0,0)
+window.scrollTo(0,0);
 }
 
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
 
-function closeModal(id){document.getElementById(id).classList.remove("show")}
-function openAuth(mode){document.getElementById("authModal").classList.add("show");switchAuth(mode)}
+function closeModal(id){
+$(id).classList.remove("show");
+}
 
-document.getElementById("loginBtn").onclick=()=>openAuth("login");
-document.getElementById("registerBtn").onclick=()=>current()?go("dashboard"):openAuth("register");
+function openAuth(mode){
+$("authModal").classList.add("show");
+switchAuth(mode);
+}
+
+$("loginBtn").onclick=()=>openAuth("login");
+$("registerBtn").onclick=()=>current()?go("dashboard"):openAuth("register");
 
 function switchAuth(mode){
 let r=mode==="register";
-document.getElementById("authTitle").textContent=r?"إنشاء حساب جديد":"تسجيل الدخول";
-document.getElementById("registerForm").style.display=r?"block":"none";
-document.getElementById("loginForm").style.display=r?"none":"block"
+$("authTitle").textContent=r?"إنشاء حساب جديد":"تسجيل الدخول";
+$("registerForm").style.display=r?"block":"none";
+$("loginForm").style.display=r?"none":"block";
 }
 
-document.getElementById("registerForm").onsubmit=e=>{
+// التسجيل: أي كلمة مرور من 7 خانات فأكثر
+$("registerForm").addEventListener("submit",e=>{
 e.preventDefault();
-let name=regName.value.trim(),phone=regPhone.value.trim(),email=regEmail.value.trim().toLowerCase(),username=regUsername.value.trim().toLowerCase(),pass=regPassword.value;
-if(!/(?=.*[A-Za-z])(?=.*\d).{8,}/.test(pass)){alert("كلمة المرور يجب أن تحتوي على 8 خانات على الأقل، بينها حرف ورقم.");return}
-if(pass!==regConfirm.value){alert("كلمتا المرور غير متطابقتين.");return}
-if(db.users.some(u=>u.email===email||u.username===username)){alert("البريد أو اسم المستخدم مستعمل.");return}
-let u={id:"u"+Date.now(),name,phone,email,username,password:pass,balance:0,orders:[]};
-db.users.push(u);db.current=u.id;save();closeModal("authModal");refresh();go("dashboard");alert("تم إنشاء الحساب التجريبي.")
+
+let name=$("regName").value.trim();
+let phone=$("regPhone").value.trim();
+let email=$("regEmail").value.trim().toLowerCase();
+let username=$("regUsername").value.trim().toLowerCase();
+let pass=$("regPassword").value;
+let confirm=$("regConfirm").value;
+
+if(pass.length<7){
+alert("كلمة المرور يجب أن تكون 7 خانات على الأقل.");
+return;
+}
+
+if(pass!==confirm){
+alert("كلمتا المرور غير متطابقتين.");
+return;
+}
+
+if(db.users.some(u=>u.email===email||u.username===username)){
+alert("البريد أو اسم المستخدم مستعمل.");
+return;
+}
+
+let u={
+id:"u"+Date.now(),
+name,
+phone,
+email,
+username,
+password:pass,
+balance:0,
+orders:[]
 };
 
-document.getElementById("loginForm").onsubmit=e=>{
+db.users.push(u);
+db.current=u.id;
+save();
+closeModal("authModal");
+refresh();
+go("dashboard");
+$("registerForm").reset();
+alert("تم إنشاء الحساب بنجاح! مرحباً بك في GTX STORE.");
+});
+
+$("loginForm").addEventListener("submit",e=>{
 e.preventDefault();
-let id=loginIdentity.value.trim().toLowerCase(),p=loginPassword.value,u=db.users.find(x=>(x.email===id||x.username===id)&&x.password===p);
-if(!u){alert("بيانات الدخول غير صحيحة.");return}
-db.current=u.id;save();closeModal("authModal");refresh();go("dashboard")
-};
+
+let id=$("loginIdentity").value.trim().toLowerCase();
+let p=$("loginPassword").value;
+let u=db.users.find(x=>(x.email===id||x.username===id)&&x.password===p);
+
+if(!u){
+alert("بيانات الدخول غير صحيحة.");
+return;
+}
+
+db.current=u.id;
+save();
+closeModal("authModal");
+refresh();
+go("dashboard");
+$("loginForm").reset();
+});
 
 function refresh(){
 let u=current();
-topUser.textContent=u?"مرحباً، "+u.name:"مرحباً بك في GTX STORE";
-loginBtn.style.display=u?"none":"inline-block";
-registerBtn.textContent=u?"حسابي":"إنشاء حساب"
+$("topUser").textContent=u?"مرحباً، "+u.name:"مرحباً بك في GTX STORE";
+$("loginBtn").style.display=u?"none":"inline-block";
+$("registerBtn").textContent=u?"حسابي":"إنشاء حساب";
 }
 
 function renderDashboard(){
 let u=current();
-userBadge.textContent=u?u.username:"زائر";
-dashboardContent.innerHTML=!u?'<div class="empty">سجّل الدخول أو أنشئ حساباً.</div>':`<h2>مرحباً ${esc(u.name)} 👋</h2>
+$("userBadge").textContent=u?u.username:"زائر";
+
+$("dashboardContent").innerHTML=!u?
+'<div class="empty">سجّل الدخول أو أنشئ حساباً.</div>':
+`<h2>مرحباً ${esc(u.name)} 👋</h2>
 <div class="stats">
 <div class="stat">رصيد المحفظة<strong>${u.balance} DA</strong></div>
 <div class="stat">عدد الطلبات<strong>${u.orders.length}</strong></div>
@@ -302,52 +383,125 @@ dashboardContent.innerHTML=!u?'<div class="empty">سجّل الدخول أو أ�
 <button onclick="go('wallet')">شحن المحفظة</button>
 <button class="secondary" onclick="go('orders')">طلباتي</button>
 <button class="ghost" onclick="logout()">تسجيل الخروج</button>
-</div>`
+</div>`;
 }
 
-function logout(){db.current=null;save();refresh();go("home")}
+function logout(){
+db.current=null;
+save();
+refresh();
+go("home");
+}
 
 function startOrder(name){
-if(!current()){alert("سجّل الدخول أولاً.");openAuth("login");return}
+if(!current()){
+alert("سجّل الدخول أولاً.");
+openAuth("login");
+return;
+}
 selected=name;
-selectedService.textContent="الخدمة: "+name;
-orderDetails.value="";
-orderContact.value=current().phone;
-orderModal.classList.add("show")
+$("selectedService").textContent="الخدمة: "+name;
+$("orderDetails").value="";
+$("orderContact").value=current().phone;
+$("orderModal").classList.add("show");
 }
 
 function confirmOrder(){
 let u=current();
 if(!u)return;
-u.orders.unshift({id:"GTX-"+Date.now().toString().slice(-7),service:selected,details:orderDetails.value.trim(),contact:orderContact.value.trim(),date:new Date().toLocaleString("ar-DZ"),status:"قيد المراجعة"});
-save();closeModal("orderModal");alert("تم تسجيل الطلب التجريبي. لا يوجد تنفيذ أو دفع تلقائي.");go("orders")
+
+u.orders.unshift({
+id:"GTX-"+Date.now().toString().slice(-7),
+service:selected,
+details:$("orderDetails").value.trim(),
+contact:$("orderContact").value.trim(),
+date:new Date().toLocaleString("ar-DZ"),
+status:"قيد المراجعة"
+});
+
+save();
+closeModal("orderModal");
+alert("تم تسجيل الطلب التجريبي.");
+go("orders");
 }
 
 function renderOrders(){
 let u=current();
-ordersContent.innerHTML=!u?'<div class="empty">سجّل الدخول لعرض طلباتك.</div>':!u.orders.length?'<div class="empty">لا توجد طلبات بعد.</div>':'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>الخدمة</th><th>التاريخ</th><th>الحالة</th></tr>'+u.orders.map(o=>`<tr><td>${esc(o.id)}</td><td>${esc(o.service)}</td><td>${esc(o.date)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("")+'</table></div>'
+
+$("ordersContent").innerHTML=!u?
+'<div class="empty">سجّل الدخول لعرض طلباتك.</div>':
+!u.orders.length?
+'<div class="empty">لا توجد طلبات بعد.</div>':
+'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>الخدمة</th><th>التاريخ</th><th>الحالة</th></tr>'+
+u.orders.map(o=>`<tr>
+<td>${esc(o.id)}</td>
+<td>${esc(o.service)}</td>
+<td>${esc(o.date)}</td>
+<td><span class="badge">${esc(o.status)}</span></td>
+</tr>`).join("")+'</table></div>';
 }
 
 function requestTopup(){
 let u=current();
-if(!u){alert("سجّل الدخول أولاً.");openAuth("login");return}
-let amount=Number(topupAmount.value),method=topupMethod.value,ref=topupRef.value.trim();
-if(!Number.isFinite(amount)||amount<100||!method){alert("أدخل مبلغاً صحيحاً واختر طريقة الدفع.");return}
-db.topups.unshift({id:"TOP-"+Date.now().toString().slice(-6),userId:u.id,amount,method,ref,date:new Date().toLocaleString("ar-DZ"),status:"بانتظار التحقق"});
-save();topupAmount.value="";topupMethod.value="";topupRef.value="";renderWallet();alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.")
+
+if(!u){
+alert("سجّل الدخول أولاً.");
+openAuth("login");
+return;
+}
+
+let amount=Number($("topupAmount").value);
+let method=$("topupMethod").value;
+let ref=$("topupRef").value.trim();
+
+if(!Number.isFinite(amount)||amount<100||!method){
+alert("أدخل مبلغاً صحيحاً واختر طريقة الدفع.");
+return;
+}
+
+db.topups.unshift({
+id:"TOP-"+Date.now().toString().slice(-6),
+userId:u.id,
+amount,
+method,
+ref,
+date:new Date().toLocaleString("ar-DZ"),
+status:"بانتظار التحقق"
+});
+
+save();
+$("topupAmount").value="";
+$("topupMethod").value="";
+$("topupRef").value="";
+renderWallet();
+alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.");
 }
 
 function renderWallet(){
 let u=current();
-walletAmount.textContent=u?u.balance+" DA":"0 DA";
-if(!u){topupHistory.textContent="سجّل الدخول لعرض طلبات الشحن.";return}
-let rows=db.topups.filter(t=>t.userId===u.id);
-topupHistory.innerHTML=!rows.length?"لا توجد طلبات شحن.":'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr>'+rows.map(t=>`<tr><td>${esc(t.id)}</td><td>${t.amount} DA</td><td>${esc(t.method)}</td><td>${esc(t.status)}</td></tr>`).join("")+'</table></div>'
+$("walletAmount").textContent=u?u.balance+" DA":"0 DA";
+
+if(!u){
+$("topupHistory").textContent="سجّل الدخول لعرض طلبات الشحن.";
+return;
 }
 
-serviceSearch.oninput=e=>{
+let rows=db.topups.filter(t=>t.userId===u.id);
+
+$("topupHistory").innerHTML=!rows.length?
+"لا توجد طلبات شحن.":
+'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr>'+
+rows.map(t=>`<tr>
+<td>${esc(t.id)}</td>
+<td>${t.amount} DA</td>
+<td>${esc(t.method)}</td>
+<td>${esc(t.status)}</td>
+</tr>`).join("")+'</table></div>';
+}
+
+$("serviceSearch").oninput=e=>{
 let q=e.target.value.toLowerCase();
-renderServices(SERVICES.filter(s=>(s.name+s.desc).toLowerCase().includes(q)),"allServices")
+renderServices(SERVICES.filter(s=>(s.name+s.desc).toLowerCase().includes(q)),"allServices");
 };
 
 renderServices(SERVICES.slice(0,4),"homeServices");
