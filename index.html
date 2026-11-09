@@ -1,4 +1,292 @@
-textContent=u?"حسابي":"إنشاء حساب"
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GTX STORE</title>
+<style>
+:root{--bg:#090a10;--p:#171a26;--line:#34384a;--red:#e50920;--muted:#adb1c0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Tahoma,sans-serif}
+button{border:0;border-radius:9px;padding:11px 15px;background:var(--red);color:white;font-weight:bold;cursor:pointer}
+button:hover{background:#a90018}
+.secondary{background:#303447}
+.ghost{background:transparent;border:1px solid var(--line)}
+header,.top{padding:13px 4%;background:#11131d;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.top{background:#05060a;color:#ccc;font-size:13px}
+.brand{font-size:27px;font-weight:900}
+.brand b{color:var(--red)}
+.brand small{display:block;text-align:center;font-size:10px;letter-spacing:4px;color:#aaa}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav button{background:transparent}
+.nav button.active,.nav button:hover{background:var(--red)}
+.wrap{max-width:1300px;margin:auto;padding:20px 4%}
+.hero{padding:38px 5%;border:1px solid #57202d;border-radius:17px;background:radial-gradient(circle at 80%,#651225,#17121d 48%,#090a10);display:flex;justify-content:space-between;align-items:center;gap:15px}
+.hero h1{font-size:clamp(32px,5vw,58px);margin:0}
+.hero h1 b{color:var(--red)}
+.art{font-size:80px}
+.trust,.grid,.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin:16px 0}
+.trust div,.card,.panel,.stat{background:var(--p);border:1px solid var(--line);border-radius:13px;padding:17px}
+.trust div{text-align:center}
+.page{display:none}
+.page.active{display:block}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:25px 0 12px}
+.card:hover{border-color:#a52a40;transform:translateY(-2px)}
+.emoji{font-size:40px}
+.card h3{margin:8px 0}
+.card p{color:var(--muted);min-height:35px}
+.price{color:#f5ce58;font-weight:bold;margin:10px 0}
+.card button{width:100%}
+.muted{color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.field input,.field select,.search{background:#0d101a;border:1px solid #454a60;border-radius:9px;padding:12px;color:white;width:100%}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.notice{padding:12px;background:#332819;border:1px solid #72572d;color:#ffe2a4;border-radius:10px;line-height:1.7;font-size:13px;margin:12px 0}
+.balance{font-size:30px;color:#45d99a;font-weight:bold}
+.stat strong{display:block;font-size:24px;margin-top:8px}
+.badge{background:#243b30;color:#91e9b7;border-radius:20px;padding:5px 9px;font-size:12px}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.table-wrap{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:500px}
+td,th{text-align:right;padding:12px;border-bottom:1px solid var(--line)}
+th{background:#222638}
+footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid var(--line)}
+.modal{display:none;position:fixed;inset:0;background:#000c;z-index:9;align-items:center;justify-content:center;padding:15px}
+.modal.show{display:flex}
+.modal-box{background:#191c29;border:1px solid #4a5065;border-radius:15px;padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto}
+.close{float:left;background:#34394c;padding:6px 10px}
+@media(max-width:600px){
+.hero{padding:25px}
+.art{font-size:50px}
+.nav{width:100%}
+.nav button{flex:1}
+.trust{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+<span>🎧 دعم العملاء • ⚡ خدمة سريعة • 🔒 متابعة الطلبات</span>
+<span id="topUser">مرحباً بك في GTX STORE</span>
+</div>
+
+<header>
+<div class="brand">👑 GTX <b>STORE</b><small>PHONE • DIGITAL • GAMING</small></div>
+<nav class="nav">
+<button class="active" data-page="home">الرئيسية</button>
+<button data-page="services">الخدمات</button>
+<button data-page="dashboard">حسابي</button>
+<button data-page="wallet">المحفظة</button>
+<button data-page="orders">طلباتي</button>
+</nav>
+<div>
+<button class="secondary" id="loginBtn">دخول</button>
+<button id="registerBtn">إنشاء حساب</button>
+</div>
+</header>
+
+<main class="wrap">
+
+<section id="home" class="page active">
+<div class="hero">
+<div>
+<h1>GTX <b>STORE</b></h1>
+<h2>خدماتك الرقمية في مكان واحد</h2>
+<p>ألعاب • اشتراكات • خدمات الهاتف • خدمات رقمية</p>
+<button onclick="go('services')">اكتشف الخدمات ←</button>
+</div>
+<div class="art">🎮📱</div>
+</div>
+<div class="trust">
+<div>⚡ تنفيذ سريع</div>
+<div>🛡️ متابعة الطلبات</div>
+<div>💬 دعم العملاء</div>
+</div>
+<div class="section-title">
+<h2>الخدمات الأكثر طلباً</h2>
+<button class="ghost" onclick="go('services')">عرض الكل</button>
+</div>
+<div id="homeServices" class="grid"></div>
+</section>
+
+<section id="services" class="page">
+<div class="section-title">
+<h2>جميع الخدمات</h2>
+<input class="search" id="serviceSearch" placeholder="ابحث عن خدمة...">
+</div>
+<div id="allServices" class="grid"></div>
+</section>
+
+<section id="dashboard" class="page">
+<div class="section-title">
+<h2>لوحة حسابي</h2>
+<span class="badge" id="userBadge">زائر</span>
+</div>
+<div class="panel" id="dashboardContent">
+<div class="empty">سجّل الدخول أو أنشئ حساباً.</div>
+</div>
+</section>
+
+<section id="wallet" class="page">
+<h2>المحفظة الإلكترونية</h2>
+<div class="panel">
+<p class="muted">رصيدك التجريبي</p>
+<div class="balance" id="walletAmount">0 DA</div>
+<div class="notice">هذه نسخة تجريبية للواجهة فقط. طلب الشحن لا يضيف أموالاً حقيقية ولا يتصل ببطاقة دفع. لا ترسل كلمة مرورك أو بيانات بطاقتك.</div>
+<h3>طلب شحن الرصيد</h3>
+<div class="form-grid">
+<div class="field">
+<label>المبلغ بالدينار</label>
+<input id="topupAmount" type="number" min="100" placeholder="1000">
+</div>
+<div class="field">
+<label>طريقة الدفع</label>
+<select id="topupMethod">
+<option value="">اختر الطريقة</option>
+<option>BaridiMob</option>
+<option>CCP</option>
+<option>تحويل بنكي</option>
+<option>طريقة أخرى</option>
+</select>
+</div>
+<div class="field">
+<label>مرجع التحويل (اختياري)</label>
+<input id="topupRef" placeholder="رقم العملية فقط">
+</div>
+</div>
+<button onclick="requestTopup()">إرسال طلب الشحن</button>
+<h3>طلبات الشحن السابقة</h3>
+<div id="topupHistory" class="empty">لا توجد طلبات.</div>
+</div>
+</section>
+
+<section id="orders" class="page">
+<h2>طلباتي</h2>
+<div class="panel" id="ordersContent">
+<div class="empty">سجّل الدخول لعرض طلباتك.</div>
+</div>
+</section>
+
+</main>
+
+<footer>© 2026 GTX STORE — PHONE • DIGITAL • GAMING</footer>
+
+<div class="modal" id="authModal">
+<div class="modal-box">
+<button class="close" onclick="closeModal('authModal')">✕</button>
+<h2 id="authTitle">إنشاء حساب</h2>
+
+<form id="registerForm">
+<div class="field"><label>الاسم الكامل</label><input id="regName" required minlength="3"></div>
+<div class="field"><label>رقم الهاتف</label><input id="regPhone" required inputmode="tel"></div>
+<div class="field"><label>البريد الإلكتروني</label><input id="regEmail" type="email" required></div>
+<div class="field"><label>اسم المستخدم</label><input id="regUsername" required minlength="3"></div>
+<div class="field"><label>كلمة المرور: 8 خانات على الأقل، حروف وأرقام</label><input id="regPassword" type="password" required minlength="8"></div>
+<div class="field"><label>تأكيد كلمة المرور</label><input id="regConfirm" type="password" required></div>
+<button type="submit">إنشاء الحساب</button>
+<button type="button" class="ghost" onclick="switchAuth('login')">لدي حساب</button>
+</form>
+
+<form id="loginForm" style="display:none">
+<div class="field"><label>اسم المستخدم أو البريد الإلكتروني</label><input id="loginIdentity" required></div>
+<div class="field"><label>كلمة المرور</label><input id="loginPassword" type="password" required></div>
+<button type="submit">تسجيل الدخول</button>
+<button type="button" class="ghost" onclick="switchAuth('register')">إنشاء حساب</button>
+</form>
+
+<div class="notice">تنبيه: هذا تسجيل تجريبي محلي. لا تستعمل كلمة مرورك الحقيقية أو كلمة مرور تستخدمها في مواقع أخرى.</div>
+</div>
+</div>
+
+<div class="modal" id="orderModal">
+<div class="modal-box">
+<button class="close" onclick="closeModal('orderModal')">✕</button>
+<h2>طلب خدمة</h2>
+<p id="selectedService"></p>
+<div class="field"><label>تفاصيل الطلب</label><input id="orderDetails" placeholder="التفاصيل الضرورية فقط"></div>
+<div class="field"><label>رقم التواصل</label><input id="orderContact" placeholder="رقم الهاتف"></div>
+<button onclick="confirmOrder()">إرسال الطلب</button>
+</div>
+</div>
+
+<script>
+const SERVICES=[
+{name:"Free Fire",desc:"شحن ألماس Free Fire",price:"حسب الباقة",icon:"🔥"},
+{name:"PUBG Mobile",desc:"شحن UC",price:"حسب الباقة",icon:"🎯"},
+{name:"eFootball",desc:"شحن العملات والنقاط",price:"حسب الباقة",icon:"⚽"},
+{name:"Snapchat+",desc:"اشتراك Snapchat+",price:"ابتداءً من 400 DA",icon:"👻"},
+{name:"Netflix",desc:"اشتراكات ترفيهية",price:"حسب المدة",icon:"🎬"},
+{name:"خدمات الحسابات",desc:"إعداد ومساعدة تقنية للحسابات",price:"حسب الخدمة",icon:"📲"},
+{name:"خدمات الهاتف",desc:"تشخيص وتنظيف وبرامج",price:"حسب الحالة",icon:"🛠️"},
+{name:"تصميم وإعلانات",desc:"تصميم منشورات وإعداد حملات",price:"حسب الطلب",icon:"📣"}
+];
+
+const KEY="gtx_store_demo_v1";
+let db=JSON.parse(localStorage.getItem(KEY)||'{"users":[],"current":null,"topups":[]}'),selected=null;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function current(){return db.users.find(u=>u.id===db.current)||null}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function renderServices(list,id){
+document.getElementById(id).innerHTML=list.map(s=>`<article class="card">
+<div class="emoji">${s.icon}</div>
+<h3>${esc(s.name)}</h3>
+<p>${esc(s.desc)}</p>
+<div class="price">${esc(s.price)}</div>
+<button onclick="startOrder('${esc(s.name)}')">اطلب الآن</button>
+</article>`).join("")
+}
+
+function go(id){
+document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===id));
+document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===id));
+if(id==="dashboard")renderDashboard();
+if(id==="wallet")renderWallet();
+if(id==="orders")renderOrders();
+window.scrollTo(0,0)
+}
+
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
+
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+function openAuth(mode){document.getElementById("authModal").classList.add("show");switchAuth(mode)}
+
+document.getElementById("loginBtn").onclick=()=>openAuth("login");
+document.getElementById("registerBtn").onclick=()=>current()?go("dashboard"):openAuth("register");
+
+function switchAuth(mode){
+let r=mode==="register";
+document.getElementById("authTitle").textContent=r?"إنشاء حساب جديد":"تسجيل الدخول";
+document.getElementById("registerForm").style.display=r?"block":"none";
+document.getElementById("loginForm").style.display=r?"none":"block"
+}
+
+document.getElementById("registerForm").onsubmit=e=>{
+e.preventDefault();
+let name=regName.value.trim(),phone=regPhone.value.trim(),email=regEmail.value.trim().toLowerCase(),username=regUsername.value.trim().toLowerCase(),pass=regPassword.value;
+if(!/(?=.*[A-Za-z])(?=.*\d).{8,}/.test(pass)){alert("كلمة المرور يجب أن تحتوي على 8 خانات على الأقل، بينها حرف ورقم.");return}
+if(pass!==regConfirm.value){alert("كلمتا المرور غير متطابقتين.");return}
+if(db.users.some(u=>u.email===email||u.username===username)){alert("البريد أو اسم المستخدم مستعمل.");return}
+let u={id:"u"+Date.now(),name,phone,email,username,password:pass,balance:0,orders:[]};
+db.users.push(u);db.current=u.id;save();closeModal("authModal");refresh();go("dashboard");alert("تم إنشاء الحساب التجريبي.")
+};
+
+document.getElementById("loginForm").onsubmit=e=>{
+e.preventDefault();
+let id=loginIdentity.value.trim().toLowerCase(),p=loginPassword.value,u=db.users.find(x=>(x.email===id||x.username===id)&&x.password===p);
+if(!u){alert("بيانات الدخول غير صحيحة.");return}
+db.current=u.id;save();closeModal("authModal");refresh();go("dashboard")
+};
+
+function refresh(){
+let u=current();
+topUser.textContent=u?"مرحباً، "+u.name:"مرحباً بك في GTX STORE";
+loginBtn.style.display=u?"none":"inline-block";
+registerBtn.textContent=u?"حسابي":"إنشاء حساب"
 }
 
 function renderDashboard(){
