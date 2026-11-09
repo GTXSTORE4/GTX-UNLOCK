@@ -11,34 +11,25 @@
 body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Tahoma,sans-serif}
 button{border:0;border-radius:9px;padding:11px 15px;background:var(--red);color:white;font-weight:bold;cursor:pointer}
 button:hover{background:#a90018}
-.secondary{background:#303447}
-.ghost{background:transparent;border:1px solid var(--line)}
+.secondary{background:#303447}.ghost{background:transparent;border:1px solid var(--line)}
 header,.top{padding:13px 4%;background:#11131d;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
 .top{background:#05060a;color:#ccc;font-size:13px}
-.brand{font-size:27px;font-weight:900}
-.brand b{color:var(--red)}
+.brand{font-size:27px;font-weight:900}.brand b{color:var(--red)}
 .brand small{display:block;text-align:center;font-size:10px;letter-spacing:4px;color:#aaa}
-.nav{display:flex;gap:6px;flex-wrap:wrap}
-.nav button{background:transparent}
+.nav{display:flex;gap:6px;flex-wrap:wrap}.nav button{background:transparent}
 .nav button.active,.nav button:hover{background:var(--red)}
 .wrap{max-width:1300px;margin:auto;padding:20px 4%}
 .hero{padding:38px 5%;border:1px solid #57202d;border-radius:17px;background:radial-gradient(circle at 80%,#651225,#17121d 48%,#090a10);display:flex;justify-content:space-between;align-items:center;gap:15px}
-.hero h1{font-size:clamp(32px,5vw,58px);margin:0}
-.hero h1 b{color:var(--red)}
+.hero h1{font-size:clamp(32px,5vw,58px);margin:0}.hero h1 b{color:var(--red)}
 .art{font-size:80px}
 .trust,.grid,.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin:16px 0}
 .trust div,.card,.panel,.stat{background:var(--p);border:1px solid var(--line);border-radius:13px;padding:17px}
-.trust div{text-align:center}
-.page{display:none}
-.page.active{display:block}
+.trust div{text-align:center}.page{display:none}.page.active{display:block}
 .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:25px 0 12px}
 .card:hover{border-color:#a52a40;transform:translateY(-2px)}
-.emoji{font-size:40px}
-.card h3{margin:8px 0}
-.card p{color:var(--muted);min-height:35px}
-.price{color:#f5ce58;font-weight:bold;margin:10px 0}
-.card button{width:100%}
-.muted{color:var(--muted)}
+.emoji{font-size:40px}.card h3{margin:8px 0}
+.card p{color:var(--muted);min-height:35px}.price{color:#f5ce58;font-weight:bold;margin:10px 0}
+.card button{width:100%}.muted{color:var(--muted)}
 .field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
 .field input,.field select,.search{background:#0d101a;border:1px solid #454a60;border-radius:9px;padding:12px;color:white;width:100%}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
@@ -48,8 +39,7 @@ header,.top{padding:13px 4%;background:#11131d;display:flex;align-items:center;j
 .stat strong{display:block;font-size:24px;margin-top:8px}
 .badge{background:#243b30;color:#91e9b7;border-radius:20px;padding:5px 9px;font-size:12px}
 .empty{text-align:center;padding:25px;color:var(--muted)}
-.table-wrap{overflow:auto}
-table{border-collapse:collapse;width:100%;min-width:500px}
+.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:500px}
 td,th{text-align:right;padding:12px;border-bottom:1px solid var(--line)}
 th{background:#222638}
 footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid var(--line)}
@@ -57,13 +47,7 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 .modal.show{display:flex}
 .modal-box{background:#191c29;border:1px solid #4a5065;border-radius:15px;padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto}
 .close{float:left;background:#34394c;padding:6px 10px}
-@media(max-width:600px){
-.hero{padding:25px}
-.art{font-size:50px}
-.nav{width:100%}
-.nav button{flex:1}
-.trust{grid-template-columns:1fr}
-}
+@media(max-width:600px){.hero{padding:25px}.art{font-size:50px}.nav{width:100%}.nav button{flex:1}.trust{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -135,27 +119,16 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <div class="panel">
 <p class="muted">رصيدك التجريبي</p>
 <div class="balance" id="walletAmount">0 DA</div>
-<div class="notice">هذه نسخة تجريبية للواجهة فقط. طلب الشحن لا يضيف أموالاً حقيقية ولا يتصل ببطاقة دفع.</div>
+<div class="notice">هذه نسخة تجريبية للواجهة فقط. لا تتم أي عملية دفع حقيقية.</div>
 <h3>طلب شحن الرصيد</h3>
 <div class="form-grid">
-<div class="field">
-<label>المبلغ بالدينار</label>
-<input id="topupAmount" type="number" min="100" placeholder="1000">
-</div>
-<div class="field">
-<label>طريقة الدفع</label>
+<div class="field"><label>المبلغ بالدينار</label><input id="topupAmount" type="number" min="100" placeholder="1000"></div>
+<div class="field"><label>طريقة الدفع</label>
 <select id="topupMethod">
 <option value="">اختر الطريقة</option>
-<option>BaridiMob</option>
-<option>CCP</option>
-<option>تحويل بنكي</option>
-<option>طريقة أخرى</option>
-</select>
-</div>
-<div class="field">
-<label>مرجع التحويل (اختياري)</label>
-<input id="topupRef" placeholder="رقم العملية فقط">
-</div>
+<option>BaridiMob</option><option>CCP</option><option>تحويل بنكي</option><option>طريقة أخرى</option>
+</select></div>
+<div class="field"><label>مرجع التحويل (اختياري)</label><input id="topupRef" placeholder="رقم العملية فقط"></div>
 </div>
 <button onclick="requestTopup()">إرسال طلب الشحن</button>
 <h3>طلبات الشحن السابقة</h3>
@@ -177,7 +150,6 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <div class="modal-box">
 <button class="close" onclick="closeModal('authModal')">✕</button>
 <h2 id="authTitle">إنشاء حساب</h2>
-
 <form id="registerForm">
 <div class="field"><label>الاسم الكامل</label><input id="regName" required minlength="3"></div>
 <div class="field"><label>رقم الهاتف</label><input id="regPhone" required inputmode="tel"></div>
@@ -188,14 +160,12 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <button type="submit">إنشاء الحساب</button>
 <button type="button" class="ghost" onclick="switchAuth('login')">لدي حساب</button>
 </form>
-
 <form id="loginForm" style="display:none">
 <div class="field"><label>اسم المستخدم أو البريد الإلكتروني</label><input id="loginIdentity" required></div>
 <div class="field"><label>كلمة المرور</label><input id="loginPassword" type="password" required></div>
 <button type="submit">تسجيل الدخول</button>
 <button type="button" class="ghost" onclick="switchAuth('register')">إنشاء حساب</button>
 </form>
-
 <div class="notice">تسجيل تجريبي محلي فقط. لا تستعمل كلمة مرورك الحقيقية.</div>
 </div>
 </div>
@@ -205,14 +175,44 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <button class="close" onclick="closeModal('orderModal')">✕</button>
 <h2>طلب خدمة</h2>
 <p id="selectedService"></p>
-<div class="field"><label>تفاصيل الطلب</label><input id="orderDetails" placeholder="التفاصيل الضرورية فقط"></div>
-<div class="field"><label>رقم التواصل</label><input id="orderContact" placeholder="رقم الهاتف"></div>
-<button onclick="confirmOrder()">إرسال الطلب</button>
+<div class="field" id="packageField">
+<label>اختر الباقة</label>
+<select id="orderPackage"><option value="">اختر الباقة</option></select>
+</div>
+<div class="field" id="playerField">
+<label>ID اللاعب</label>
+<input id="playerId" inputmode="numeric" placeholder="أدخل ID اللاعب">
+</div>
+<div class="field" id="detailsField">
+<label>تفاصيل الطلب (إن لزم)</label>
+<input id="orderDetails" placeholder="التفاصيل الضرورية فقط">
+</div>
+<div class="field">
+<label>رقم التواصل</label>
+<input id="orderContact" placeholder="رقم الهاتف">
+</div>
+<button id="sendOrderBtn" onclick="confirmOrder()">إرسال الطلب إلى المتجر</button>
 </div>
 </div>
 
+<iframe name="telegramFrame" style="display:none"></iframe>
+
 <script>
 "use strict";
+
+/* ضع رابط Google Apps Script المنشور مكان النص التالي */
+const TELEGRAM_WEB_APP_URL = "ضع_رابط_WEB_APP_هنا";
+
+/* عدّل الأسعار حسب أسعارك */
+const PACKAGES = [
+{name:"100 جوهرة",price:"أدخل السعر"},
+{name:"310 جوهرة",price:"أدخل السعر"},
+{name:"520 جوهرة",price:"أدخل السعر"},
+{name:"1060 جوهرة",price:"أدخل السعر"},
+{name:"2180 جوهرة",price:"أدخل السعر"},
+{name:"عضوية أسبوعية",price:"أدخل السعر"},
+{name:"عضوية شهرية",price:"أدخل السعر"}
+];
 
 const SERVICES=[
 {name:"Free Fire",desc:"شحن ألماس Free Fire",price:"حسب الباقة",icon:"🔥"},
@@ -227,27 +227,18 @@ const SERVICES=[
 
 const KEY="gtx_store_demo_v1";
 let db;
-
 try {
 db=JSON.parse(localStorage.getItem(KEY)||'{"users":[],"current":null,"topups":[]}');
 } catch(e) {
 db={users:[],current:null,topups:[]};
 }
-
 if(!Array.isArray(db.users))db.users=[];
 if(!Array.isArray(db.topups))db.topups=[];
-
 let selected=null;
 const $=id=>document.getElementById(id);
 
-function save(){
-localStorage.setItem(KEY,JSON.stringify(db));
-}
-
-function current(){
-return db.users.find(u=>u.id===db.current)||null;
-}
-
+function save(){localStorage.setItem(KEY,JSON.stringify(db));}
+function current(){return db.users.find(u=>u.id===db.current)||null;}
 function esc(v){
 return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
@@ -271,18 +262,10 @@ if(id==="wallet")renderWallet();
 if(id==="orders")renderOrders();
 window.scrollTo(0,0);
 }
-
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
 
-function closeModal(id){
-$(id).classList.remove("show");
-}
-
-function openAuth(mode){
-$("authModal").classList.add("show");
-switchAuth(mode);
-}
-
+function closeModal(id){$(id).classList.remove("show");}
+function openAuth(mode){$("authModal").classList.add("show");switchAuth(mode);}
 $("loginBtn").onclick=()=>openAuth("login");
 $("registerBtn").onclick=()=>current()?go("dashboard"):openAuth("register");
 
@@ -293,71 +276,28 @@ $("registerForm").style.display=r?"block":"none";
 $("loginForm").style.display=r?"none":"block";
 }
 
-// التسجيل: أي كلمة مرور من 7 خانات فأكثر
 $("registerForm").addEventListener("submit",e=>{
 e.preventDefault();
-
 let name=$("regName").value.trim();
 let phone=$("regPhone").value.trim();
 let email=$("regEmail").value.trim().toLowerCase();
 let username=$("regUsername").value.trim().toLowerCase();
 let pass=$("regPassword").value;
 let confirm=$("regConfirm").value;
-
-if(pass.length<7){
-alert("كلمة المرور يجب أن تكون 7 خانات على الأقل.");
-return;
-}
-
-if(pass!==confirm){
-alert("كلمتا المرور غير متطابقتين.");
-return;
-}
-
-if(db.users.some(u=>u.email===email||u.username===username)){
-alert("البريد أو اسم المستخدم مستعمل.");
-return;
-}
-
-let u={
-id:"u"+Date.now(),
-name,
-phone,
-email,
-username,
-password:pass,
-balance:0,
-orders:[]
-};
-
-db.users.push(u);
-db.current=u.id;
-save();
-closeModal("authModal");
-refresh();
-go("dashboard");
-$("registerForm").reset();
-alert("تم إنشاء الحساب بنجاح! مرحباً بك في GTX STORE.");
+if(pass.length<7){alert("كلمة المرور يجب أن تكون 7 خانات على الأقل.");return;}
+if(pass!==confirm){alert("كلمتا المرور غير متطابقتين.");return;}
+if(db.users.some(u=>u.email===email||u.username===username)){alert("البريد أو اسم المستخدم مستعمل.");return;}
+let u={id:"u"+Date.now(),name,phone,email,username,password:pass,balance:0,orders:[]};
+db.users.push(u);db.current=u.id;save();closeModal("authModal");refresh();go("dashboard");$("registerForm").reset();alert("تم إنشاء الحساب بنجاح! مرحباً بك في GTX STORE.");
 });
 
 $("loginForm").addEventListener("submit",e=>{
 e.preventDefault();
-
 let id=$("loginIdentity").value.trim().toLowerCase();
 let p=$("loginPassword").value;
 let u=db.users.find(x=>(x.email===id||x.username===id)&&x.password===p);
-
-if(!u){
-alert("بيانات الدخول غير صحيحة.");
-return;
-}
-
-db.current=u.id;
-save();
-closeModal("authModal");
-refresh();
-go("dashboard");
-$("loginForm").reset();
+if(!u){alert("بيانات الدخول غير صحيحة.");return;}
+db.current=u.id;save();closeModal("authModal");refresh();go("dashboard");$("loginForm").reset();
 });
 
 function refresh(){
@@ -370,7 +310,6 @@ $("registerBtn").textContent=u?"حسابي":"إنشاء حساب";
 function renderDashboard(){
 let u=current();
 $("userBadge").textContent=u?u.username:"زائر";
-
 $("dashboardContent").innerHTML=!u?
 '<div class="empty">سجّل الدخول أو أنشئ حساباً.</div>':
 `<h2>مرحباً ${esc(u.name)} 👋</h2>
@@ -386,117 +325,86 @@ $("dashboardContent").innerHTML=!u?
 </div>`;
 }
 
-function logout(){
-db.current=null;
-save();
-refresh();
-go("home");
-}
+function logout(){db.current=null;save();refresh();go("home");}
 
 function startOrder(name){
-if(!current()){
-alert("سجّل الدخول أولاً.");
-openAuth("login");
-return;
-}
+if(!current()){alert("سجّل الدخول أولاً.");openAuth("login");return;}
 selected=name;
 $("selectedService").textContent="الخدمة: "+name;
 $("orderDetails").value="";
 $("orderContact").value=current().phone;
+$("playerId").value="";
+const isFF=name==="Free Fire";
+$("packageField").style.display=isFF?"flex":"none";
+$("playerField").style.display=isFF?"flex":"none";
+$("detailsField").style.display=isFF?"none":"flex";
+$("orderPackage").innerHTML='<option value="">اختر الباقة</option>'+
+PACKAGES.map(p=>`<option value="${esc(p.name)}" data-price="${esc(p.price)}">${esc(p.name)} — ${esc(p.price)} DA</option>`).join("");
 $("orderModal").classList.add("show");
 }
 
 function confirmOrder(){
-let u=current();
+const u=current();
 if(!u)return;
-
+const isFF=selected==="Free Fire";
+const pack=isFF?$("orderPackage").value:"";
+const playerId=isFF?$("playerId").value.trim():"";
+const contact=$("orderContact").value.trim();
+const details=$("orderDetails").value.trim();
+if(isFF&&(!pack||!playerId)){alert("اختر الباقة وأدخل ID اللاعب.");return;}
+if(!contact){alert("أدخل رقم التواصل.");return;}
+if(!TELEGRAM_WEB_APP_URL.startsWith("https://script.google.com/macros/s/")||!TELEGRAM_WEB_APP_URL.endsWith("/exec")){
+alert("ضع رابط Web App في TELEGRAM_WEB_APP_URL أولاً.");return;
+}
+const option=isFF?$("orderPackage").selectedOptions[0]:null;
+const price=isFF?option.dataset.price:"حسب الاتفاق";
+const payload={name:u.name,phone:contact,service:selected,pack,playerId,price,details};
+const form=document.createElement("form");
+form.method="POST";form.action=TELEGRAM_WEB_APP_URL;form.target="telegramFrame";
+Object.entries(payload).forEach(([key,value])=>{
+const input=document.createElement("input");input.type="hidden";input.name=key;input.value=value;form.appendChild(input);
+});
+document.body.appendChild(form);form.submit();form.remove();
 u.orders.unshift({
 id:"GTX-"+Date.now().toString().slice(-7),
 service:selected,
-details:$("orderDetails").value.trim(),
-contact:$("orderContact").value.trim(),
+details:isFF?pack+" — ID: "+playerId:details,
+contact,
 date:new Date().toLocaleString("ar-DZ"),
-status:"قيد المراجعة"
+status:"تم إرسال الطلب"
 });
-
-save();
-closeModal("orderModal");
-alert("تم تسجيل الطلب التجريبي.");
+save();closeModal("orderModal");
+alert("تم إرسال الطلب. انتظر تأكيد المتجر عبر رقم التواصل.");
 go("orders");
 }
 
 function renderOrders(){
 let u=current();
-
 $("ordersContent").innerHTML=!u?
 '<div class="empty">سجّل الدخول لعرض طلباتك.</div>':
 !u.orders.length?
 '<div class="empty">لا توجد طلبات بعد.</div>':
 '<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>الخدمة</th><th>التاريخ</th><th>الحالة</th></tr>'+
-u.orders.map(o=>`<tr>
-<td>${esc(o.id)}</td>
-<td>${esc(o.service)}</td>
-<td>${esc(o.date)}</td>
-<td><span class="badge">${esc(o.status)}</span></td>
-</tr>`).join("")+'</table></div>';
+u.orders.map(o=>`<tr><td>${esc(o.id)}</td><td>${esc(o.service)}<br>${esc(o.details)}</td><td>${esc(o.date)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("")+'</table></div>';
 }
 
 function requestTopup(){
 let u=current();
-
-if(!u){
-alert("سجّل الدخول أولاً.");
-openAuth("login");
-return;
-}
-
+if(!u){alert("سجّل الدخول أولاً.");openAuth("login");return;}
 let amount=Number($("topupAmount").value);
 let method=$("topupMethod").value;
 let ref=$("topupRef").value.trim();
-
-if(!Number.isFinite(amount)||amount<100||!method){
-alert("أدخل مبلغاً صحيحاً واختر طريقة الدفع.");
-return;
-}
-
-db.topups.unshift({
-id:"TOP-"+Date.now().toString().slice(-6),
-userId:u.id,
-amount,
-method,
-ref,
-date:new Date().toLocaleString("ar-DZ"),
-status:"بانتظار التحقق"
-});
-
-save();
-$("topupAmount").value="";
-$("topupMethod").value="";
-$("topupRef").value="";
-renderWallet();
-alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.");
+if(!Number.isFinite(amount)||amount<100||!method){alert("أدخل مبلغاً صحيحاً واختر طريقة الدفع.");return;}
+db.topups.unshift({id:"TOP-"+Date.now().toString().slice(-6),userId:u.id,amount,method,ref,date:new Date().toLocaleString("ar-DZ"),status:"بانتظار التحقق"});
+save();$("topupAmount").value="";$("topupMethod").value="";$("topupRef").value="";renderWallet();alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.");
 }
 
 function renderWallet(){
 let u=current();
 $("walletAmount").textContent=u?u.balance+" DA":"0 DA";
-
-if(!u){
-$("topupHistory").textContent="سجّل الدخول لعرض طلبات الشحن.";
-return;
-}
-
+if(!u){$("topupHistory").textContent="سجّل الدخول لعرض طلبات الشحن.";return;}
 let rows=db.topups.filter(t=>t.userId===u.id);
-
-$("topupHistory").innerHTML=!rows.length?
-"لا توجد طلبات شحن.":
-'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr>'+
-rows.map(t=>`<tr>
-<td>${esc(t.id)}</td>
-<td>${t.amount} DA</td>
-<td>${esc(t.method)}</td>
-<td>${esc(t.status)}</td>
-</tr>`).join("")+'</table></div>';
+$("topupHistory").innerHTML=!rows.length?"لا توجد طلبات شحن.":'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr>'+rows.map(t=>`<tr><td>${esc(t.id)}</td><td>${t.amount} DA</td><td>${esc(t.method)}</td><td>${esc(t.status)}</td></tr>`).join("")+'</table></div>';
 }
 
 $("serviceSearch").oninput=e=>{
