@@ -1,110 +1,70 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GTX-UNLOCK STORE</title>
+textContent=u?"حسابي":"إنشاء حساب"
+}
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#090910;color:white;font-family:Arial,sans-serif}
-header{background:#15151f;padding:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:2px solid #e00020}
-.logo{font-size:27px;font-weight:bold;color:#f00024}
-nav{display:flex;gap:10px;flex-wrap:wrap}
-button{background:#df001f;color:white;border:0;padding:12px 18px;border-radius:9px;cursor:pointer;font-weight:bold}
-button:hover{background:#a90018}
-.container{max-width:1100px;margin:auto;padding:20px}
-.hero{padding:45px 15px;text-align:center;background:linear-gradient(130deg,#27000b,#11111d,#30000c);border-radius:15px;margin-top:20px}
-.hero h1{font-size:38px;color:#ff1535}
-.hero p{color:#ddd;font-size:18px}
-h2{color:#ff2442}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
-.card{background:#191923;padding:22px;border:1px solid #343442;border-radius:13px;text-align:center}
-.emoji{font-size:42px}
-.card h3{color:white}
-.price{color:#ff4059;font-weight:bold}
-input,select{width:100%;padding:14px;margin:8px 0;background:#22222e;border:1px solid #444;color:white;border-radius:8px}
-.panel{background:#191923;padding:22px;border-radius:13px;margin:20px 0}
-.hidden{display:none!important}
-.balance{font-size:32px;color:#24d88a;font-weight:bold}
-footer{text-align:center;padding:25px;color:#aaa}
-a{color:#ff4059}
-</style>
-</head>
-
-<body>
-
-<header>
-<div class="logo">👑 GTX STORE</div>
-<nav>
-<button onclick="show('home')">الرئيسية</button>
-<button onclick="show('services')">الخدمات</button>
-<button onclick="show('wallet')">المحفظة</button>
-<button onclick="show('login')">دخول</button>
-<button onclick="show('register')">إنشاء حساب</button>
-</nav>
-</header>
-
-<main class="container">
-
-<section id="home">
-<div class="hero">
-<h1>GTX-UNLOCK STORE</h1>
-<h2>PHONE • DIGITAL • GAMING</h2>
-<p>خدمات رقمية وشحن ألعاب واشتراكات بأفضل الأسعار</p>
-<button onclick="show('services')">اكتشف الخدمات</button>
+function renderDashboard(){
+let u=current();
+userBadge.textContent=u?u.username:"زائر";
+dashboardContent.innerHTML=!u?'<div class="empty">سجّل الدخول أو أنشئ حساباً.</div>':`<h2>مرحباً ${esc(u.name)} 👋</h2>
+<div class="stats">
+<div class="stat">رصيد المحفظة<strong>${u.balance} DA</strong></div>
+<div class="stat">عدد الطلبات<strong>${u.orders.length}</strong></div>
+<div class="stat">الهاتف<strong>${esc(u.phone)}</strong></div>
 </div>
+<div class="actions">
+<button onclick="go('wallet')">شحن المحفظة</button>
+<button class="secondary" onclick="go('orders')">طلباتي</button>
+<button class="ghost" onclick="logout()">تسجيل الخروج</button>
+</div>`
+}
 
-<h2>خدماتنا الرئيسية</h2>
-<div class="grid">
-<div class="card"><div class="emoji">🎮</div><h3>شحن الألعاب</h3><p>Free Fire و PUBG</p></div>
-<div class="card"><div class="emoji">👻</div><h3>Snapchat+</h3><p>اشتراكات</p></div>
-<div class="card"><div class="emoji">📺</div><h3>Netflix</h3><p>اشتراكات رقمية</p></div>
-<div class="card"><div class="emoji">🔓</div><h3>خدمات Unlock</h3><p>خدمات تقنية قانونية</p></div>
-</div>
-</section>
+function logout(){db.current=null;save();refresh();go("home")}
 
-<section id="services" class="hidden">
-<h2>جميع الخدمات</h2>
-<div class="grid" id="serviceList"></div>
-</section>
+function startOrder(name){
+if(!current()){alert("سجّل الدخول أولاً.");openAuth("login");return}
+selected=name;
+selectedService.textContent="الخدمة: "+name;
+orderDetails.value="";
+orderContact.value=current().phone;
+orderModal.classList.add("show")
+}
 
-<section id="register" class="hidden">
-<div class="panel">
-<h2>إنشاء حساب جديد</h2>
-<input id="regName" placeholder="الاسم الكامل">
-<input id="regPhone" placeholder="رقم الهاتف" type="tel">
-<input id="regEmail" placeholder="البريد الإلكتروني" type="email">
-<input id="regPass" placeholder="كلمة السر (8 أحرف على الأقل ورقم)" type="password">
-<button onclick="register()">إنشاء الحساب</button>
-<p>لديك حساب؟ <a href="#" onclick="show('login')">تسجيل الدخول</a></p>
-</div>
-</section>
+function confirmOrder(){
+let u=current();
+if(!u)return;
+u.orders.unshift({id:"GTX-"+Date.now().toString().slice(-7),service:selected,details:orderDetails.value.trim(),contact:orderContact.value.trim(),date:new Date().toLocaleString("ar-DZ"),status:"قيد المراجعة"});
+save();closeModal("orderModal");alert("تم تسجيل الطلب التجريبي. لا يوجد تنفيذ أو دفع تلقائي.");go("orders")
+}
 
-<section id="login" class="hidden">
-<div class="panel">
-<h2>تسجيل الدخول</h2>
-<input id="loginUser" placeholder="اسم المستخدم أو البريد أو الهاتف">
-<input id="loginPass" type="password" placeholder="كلمة السر">
-<button onclick="login()">دخول</button>
-<p>ليس لديك حساب؟ <a href="#" onclick="show('register')">إنشاء حساب</a></p>
-</div>
-</section>
+function renderOrders(){
+let u=current();
+ordersContent.innerHTML=!u?'<div class="empty">سجّل الدخول لعرض طلباتك.</div>':!u.orders.length?'<div class="empty">لا توجد طلبات بعد.</div>':'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>الخدمة</th><th>التاريخ</th><th>الحالة</th></tr>'+u.orders.map(o=>`<tr><td>${esc(o.id)}</td><td>${esc(o.service)}</td><td>${esc(o.date)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("")+'</table></div>'
+}
 
-<section id="account" class="hidden">
-<div class="panel">
-<h2>مرحباً <span id="welcome"></span> 👋</h2>
-<p>رصيد محفظتك</p>
-<div class="balance"><span id="balance">0</span> DA</div>
-<button onclick="show('wallet')">شحن المحفظة</button>
-<button onclick="logout()">تسجيل الخروج</button>
-<h2>طلباتي</h2>
-<div id="orders">لا توجد طلبات</div>
-</div>
-</section>
+function requestTopup(){
+let u=current();
+if(!u){alert("سجّل الدخول أولاً.");openAuth("login");return}
+let amount=Number(topupAmount.value),method=topupMethod.value,ref=topupRef.value.trim();
+if(!Number.isFinite(amount)||amount<100||!method){alert("أدخل مبلغاً صحيحاً واختر طريقة الدفع.");return}
+db.topups.unshift({id:"TOP-"+Date.now().toString().slice(-6),userId:u.id,amount,method,ref,date:new Date().toLocaleString("ar-DZ"),status:"بانتظار التحقق"});
+save();topupAmount.value="";topupMethod.value="";topupRef.value="";renderWallet();alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.")
+}
 
-<section id="wallet" class="hidden">
-<div class="panel">
-<h2>💰 محفظتي</h2>
-<p>رصيدك الحالي:</p>
-<div class="balance"><span id="walletBalance">0</span> DA</div>
+function renderWallet(){
+let u=current();
+walletAmount.textContent=u?u.balance+" DA":"0 DA";
+if(!u){topupHistory.textContent="سجّل الدخول لعرض طلبات الشحن.";return}
+let rows=db.topups.filter(t=>t.userId===u.id);
+topupHistory.innerHTML=!rows.length?"لا توجد طلبات شحن.":'<div class="table-wrap"><table><tr><th>رقم الطلب</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr>'+rows.map(t=>`<tr><td>${esc(t.id)}</td><td>${t.amount} DA</td><td>${esc(t.method)}</td><td>${esc(t.status)}</td></tr>`).join("")+'</table></div>'
+}
+
+serviceSearch.oninput=e=>{
+let q=e.target.value.toLowerCase();
+renderServices(SERVICES.filter(s=>(s.name+s.desc).toLowerCase().includes(q)),"allServices")
+};
+
+renderServices(SERVICES.slice(0,4),"homeServices");
+renderServices(SERVICES,"allServices");
+refresh();
+</script>
+</body>
+</html>
