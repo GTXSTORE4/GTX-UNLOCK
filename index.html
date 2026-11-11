@@ -200,8 +200,8 @@ footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid va
 <script>
 "use strict";
 
-/* ضع رابط Google Apps Script المنشور مكان النص التالي */
-const TELEGRAM_WEB_APP_URL = "ضع_رابط_WEB_APP_هنا";
+/* رابط Google Apps Script */
+const TELEGRAM_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyudAJVvoIsAmDyLV4hPE8n7v6P8Mg_BSEu6uooATA_Pq01Km_5hkCdIdHPh8UVhe5W/exec";
 
 /* عدّل الأسعار حسب أسعارك */
 const PACKAGES = [
@@ -354,17 +354,26 @@ const details=$("orderDetails").value.trim();
 if(isFF&&(!pack||!playerId)){alert("اختر الباقة وأدخل ID اللاعب.");return;}
 if(!contact){alert("أدخل رقم التواصل.");return;}
 if(!TELEGRAM_WEB_APP_URL.startsWith("https://script.google.com/macros/s/")||!TELEGRAM_WEB_APP_URL.endsWith("/exec")){
-alert("ضع رابط Web App في TELEGRAM_WEB_APP_URL أولاً.");return;
+alert("رابط Web App غير صحيح.");return;
 }
 const option=isFF?$("orderPackage").selectedOptions[0]:null;
 const price=isFF?option.dataset.price:"حسب الاتفاق";
 const payload={name:u.name,phone:contact,service:selected,pack,playerId,price,details};
 const form=document.createElement("form");
-form.method="POST";form.action=TELEGRAM_WEB_APP_URL;form.target="telegramFrame";
+form.method="POST";
+form.action=TELEGRAM_WEB_APP_URL;
+form.target="telegramFrame";
 Object.entries(payload).forEach(([key,value])=>{
-const input=document.createElement("input");input.type="hidden";input.name=key;input.value=value;form.appendChild(input);
+const input=document.createElement("input");
+input.type="hidden";
+input.name=key;
+input.value=value;
+form.appendChild(input);
 });
-document.body.appendChild(form);form.submit();form.remove();
+document.body.appendChild(form);
+form.submit();
+form.remove();
+
 u.orders.unshift({
 id:"GTX-"+Date.now().toString().slice(-7),
 service:selected,
@@ -373,7 +382,8 @@ contact,
 date:new Date().toLocaleString("ar-DZ"),
 status:"تم إرسال الطلب"
 });
-save();closeModal("orderModal");
+save();
+closeModal("orderModal");
 alert("تم إرسال الطلب. انتظر تأكيد المتجر عبر رقم التواصل.");
 go("orders");
 }
@@ -396,7 +406,12 @@ let method=$("topupMethod").value;
 let ref=$("topupRef").value.trim();
 if(!Number.isFinite(amount)||amount<100||!method){alert("أدخل مبلغاً صحيحاً واختر طريقة الدفع.");return;}
 db.topups.unshift({id:"TOP-"+Date.now().toString().slice(-6),userId:u.id,amount,method,ref,date:new Date().toLocaleString("ar-DZ"),status:"بانتظار التحقق"});
-save();$("topupAmount").value="";$("topupMethod").value="";$("topupRef").value="";renderWallet();alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.");
+save();
+$("topupAmount").value="";
+$("topupMethod").value="";
+$("topupRef").value="";
+renderWallet();
+alert("سُجّل طلب الشحن التجريبي فقط، ولم تتم إضافة رصيد حقيقي.");
 }
 
 function renderWallet(){
